@@ -45,17 +45,21 @@ namespace GitStat.ImportConsole
                         {
                             devs.Add(devName, new Developer()
                             {
-                                Name = devName
+                                Name = devName,
+                                Commits = new List<Commit>()
                             });
                         }
 
-                        result.Add(new Commit()
+                        Commit tmp = new Commit()
                         {
                             Developer = devs[devName],
                             Date = time,
                             HashCode = hashCode,
                             Message = message
-                        });
+                        };
+
+                        result.Add(tmp);
+                        result.Last().Developer.Commits.Add(tmp);
                     }
                     else if (char.IsWhiteSpace(line[0]) && line.Contains(","))
                     {
