@@ -21,5 +21,16 @@ namespace GitStat.Persistence
             _dbContext.Commits.AddRange(commits);
         }
 
+        public IEnumerable<Commit> GetAll() => _dbContext.Commits
+                                                    .OrderByDescending(c => c.Date)
+                                                    .ToList();
+        public Commit GetCommitById(int id) => _dbContext.Commits.Find(id);
+
+        public IEnumerable<Commit> GetCommitsForTimePeriod(DateTime lower, DateTime upper) => _dbContext.Commits.Include(c => c.Developer)
+                                                                                                                .Where(c => lower <= c.Date && c.Date <= upper)
+                                                                                                                .OrderBy(_ => _.Date)
+                                                                                                                .ToList();
+
+        public Commit GetLatestCommit() => GetAll().First();
     }
 }
