@@ -21,6 +21,7 @@ namespace GitStat.ImportConsole
                 unitOfWorkImport.MigrateDatabase();
                 Console.WriteLine("Commits werden von commits.txt eingelesen");
                 var commits = ImportController.ReadFromCsv();
+                //var commits = ImportController.ReadFromTxt();
                 if (commits.Length == 0)
                 {
                     Console.WriteLine("!!! Es wurden keine Commits eingelesen");
@@ -34,9 +35,9 @@ namespace GitStat.ImportConsole
                 Console.WriteLine(
                     $"{countDevelopers} Developers und {savedRows - countDevelopers} Commits wurden in Datenbank gespeichert!");
                 Console.WriteLine();
-                var csvCommits = commits.Select(c =>
-                    $"{c.Developer.Name};{c.Date};{c.Message};{c.HashCode};{c.FilesChanges};{c.Insertions};{c.Deletions}");
-                File.WriteAllLines("commits.csv", csvCommits, Encoding.UTF8);
+                /*var csvCommits = commits.Select(c =>
+                    $"{c.Developer.Name};{c.Date};{c.Message};{c.HashCode};{c.FilesChanges};{c.Insertions};{c.Deletions}"); //Auskommentiert für Testzwecke bezüglich der .csv und der .txt Dateien
+                File.WriteAllLines("commits.csv", csvCommits, Encoding.UTF8);*/                                             //da diese unterschiedliche Daten beinhalten
             }
             Console.WriteLine("Datenbankabfragen");
             Console.WriteLine("=================");
@@ -78,6 +79,5 @@ namespace GitStat.ImportConsole
             Console.Write("Beenden mit Eingabetaste ...");
             Console.ReadLine();
         }
-
     }
 }
