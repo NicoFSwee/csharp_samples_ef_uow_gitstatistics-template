@@ -18,16 +18,13 @@ namespace GitStat.ImportConsole
         /// </summary>
         public static Commit[] ReadFromCsv()
         {
-            string path = MyFile.GetFullNameInApplicationTree(FilenameCsv);
-            string[] lines = File.ReadAllLines(path);
+            string[][] path = MyFile.ReadStringMatrixFromCsv(FilenameCsv, false);
 
-            var devs = lines.Select(l => l.Split(";"))
-                            .GroupBy(_ => _[0])
+            var devs = path.GroupBy(_ => _[0])
                             .Select(_ => new Developer() { Name = _.Key, Commits = new List<Commit>()})
                             .ToDictionary(_ => _.Name);
 
-            var result = lines.Select(l => l.Split(";"))
-                            .Select(_ => new Commit()
+            var result = path.Select(_ => new Commit()
                             {
                                 Developer = devs[_[0]],
                                 Date = DateTime.Parse(_[1]),
